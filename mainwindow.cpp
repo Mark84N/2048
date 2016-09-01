@@ -41,6 +41,10 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     undoBtn->setShortcut(Qt::CTRL+Qt::Key_Z);
     undoBtn->setToolTip("Undo the previous action.");
 
+    QPushButton *restartBtn = new QPushButton(this);
+    restartBtn->setText("restart");
+    restartBtn->setToolTip("Lost current progress and restart the game.");
+
     QPushButton *menuButton = new QPushButton(this);
     menuButton->setStyleSheet("QPushButton{"
                               "border:no;}"
@@ -62,6 +66,7 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     layout->addWidget(currentScoreLcdLabel, 1, 2);
     layout->addWidget(previousRecordLcdLabel, 1, 3);
     layout->addWidget(canvas, 2, 0, 10, 4);
+    layout->addWidget(restartBtn, 13, 2);
     layout->addWidget(undoBtn, 13, 3);
     layout->addWidget(menuButton, 13, 0);
     //  </layout placing>
