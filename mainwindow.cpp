@@ -66,16 +66,18 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     layout->addWidget(currentScoreLcdLabel, 1, 2);
     layout->addWidget(previousRecordLcdLabel, 1, 3);
     layout->addWidget(canvas, 2, 0, 10, 4);
+    layout->addWidget(menuButton, 13, 0);
     layout->addWidget(restartBtn, 13, 2);
     layout->addWidget(undoBtn, 13, 3);
-    layout->addWidget(menuButton, 13, 0);
     //  </layout placing>
 
     //  <connections>
     connect(canvas, SIGNAL(lose(qint32)),SLOT(notifyLose(qint32)));
     connect(canvas, SIGNAL(scoreChanged(qint32)), SLOT(scoreChanged(qint32)));
     connect(canvas, SIGNAL(win(qint32)), SLOT(notifyWin(qint32)));
-    connect(undoBtn, SIGNAL(pressed()), canvas, SLOT(undo()));
+    connect(restartBtn, SIGNAL(pressed()), canvas, SLOT(reset()));
+    connect(restartBtn, SIGNAL(released()), canvas, SLOT(setFocus()));
+    connect(undoBtn, SIGNAL(clicked(bool)), canvas, SLOT(undo()));
     connect(undoBtn, SIGNAL(released()), canvas, SLOT(setFocus()));
     connect(menuButton, SIGNAL(clicked(bool)), sizeMenu, SLOT(show()));
     connect(menuButton, SIGNAL(released()), canvas, SLOT(setFocus()));
