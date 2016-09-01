@@ -36,7 +36,7 @@ protected:
 
 public slots:
 
-    void redo();
+    void undo();
     void setAnotherField(qint32 size);
 
 signals:

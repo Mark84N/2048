@@ -54,7 +54,7 @@ public:
     void draw(QPainter &painter);
 
     void performMove(int keyPressed);
-    void redo();
+    void undo();
 
 signals:
 
@@ -72,7 +72,7 @@ private:
     ITileGenerator *tileGenerator;
 
     QVector<QVector<Tile>>fieldOfTiles;
-    QVector<QVector<Tile>>copyOfField;  // copy of tiles for redo feature
+    QVector<QVector<Tile>>copyOfField;  // copy of tiles for undo feature
 
     // moving logic
     bool moveUp();

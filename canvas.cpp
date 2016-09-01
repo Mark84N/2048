@@ -50,7 +50,7 @@ void Canvas::keyPressEvent(QKeyEvent *keyEv)
     if (keyEv->modifiers() & Qt::ControlModifier)
     {
         if (keyEv->key() == Qt::Key_Z)
-            gameField->redo();
+            gameField->undo();
     }
     else
     {
@@ -64,7 +64,7 @@ void Canvas::resizeEvent(QResizeEvent *event)
     gameField->recalculateTilesSize(rect());
 }
 
-void Canvas::redo()
+void Canvas::undo()
 {
-    gameField->redo();
+    gameField->undo();
 }

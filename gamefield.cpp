@@ -134,7 +134,7 @@ void GameField::performMove(int keyPressed)
         emit playerLose(currentHighScore);
 }
 
-void GameField::redo()
+void GameField::undo()
 {
     fieldOfTiles = copyOfField;
     currentHighScore = lastHighScore;

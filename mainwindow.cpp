@@ -36,10 +36,10 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     //  </LCD displays>
 
     //  <buttons>
-    QPushButton *redoBtn = new QPushButton(this);
-    redoBtn->setText("redo");
-    redoBtn->setShortcut(Qt::CTRL+Qt::Key_Z);
-    redoBtn->setToolTip("Redo the previous action.");
+    QPushButton *undoBtn = new QPushButton(this);
+    undoBtn->setText("undo");
+    undoBtn->setShortcut(Qt::CTRL+Qt::Key_Z);
+    undoBtn->setToolTip("Undo the previous action.");
 
     QPushButton *menuButton = new QPushButton(this);
     menuButton->setStyleSheet("QPushButton{"
@@ -62,7 +62,7 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     layout->addWidget(currentScoreLcdLabel, 1, 2);
     layout->addWidget(previousRecordLcdLabel, 1, 3);
     layout->addWidget(canvas, 2, 0, 10, 4);
-    layout->addWidget(redoBtn, 13, 3);
+    layout->addWidget(undoBtn, 13, 3);
     layout->addWidget(menuButton, 13, 0);
     //  </layout placing>
 
@@ -70,8 +70,8 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     connect(canvas, SIGNAL(lose(qint32)),SLOT(notifyLose(qint32)));
     connect(canvas, SIGNAL(scoreChanged(qint32)), SLOT(scoreChanged(qint32)));
     connect(canvas, SIGNAL(win(qint32)), SLOT(notifyWin(qint32)));
-    connect(redoBtn, SIGNAL(pressed()), canvas, SLOT(redo()));
-    connect(redoBtn, SIGNAL(released()), canvas, SLOT(setFocus()));
+    connect(undoBtn, SIGNAL(pressed()), canvas, SLOT(undo()));
+    connect(undoBtn, SIGNAL(released()), canvas, SLOT(setFocus()));
     connect(menuButton, SIGNAL(clicked(bool)), sizeMenu, SLOT(show()));
     connect(menuButton, SIGNAL(released()), canvas, SLOT(setFocus()));
     connect(sizeMenu, SIGNAL(newSideSize(qint32)), canvas, SLOT(setAnotherField(qint32)));
