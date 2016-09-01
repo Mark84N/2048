@@ -44,11 +44,11 @@ class GameField: public QObject
 
 public:
 
-    GameField(QObject *parent, const QRect &rect, qint32 side,
+    GameField(QObject *parent, qint32 side,
               ITileGenerator* tileGen = new ClassicTileGenerator());
     ~GameField();
 
-    void installNewField(const QRect &rect, qint32 size);
+    void installNewField(qint32 side);
     void recalculateTilesSize(const QRect& r);
     void addNewTiles();
     void draw(QPainter &painter);

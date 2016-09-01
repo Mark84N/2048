@@ -1,6 +1,6 @@
 #include "gamefield.h"
 
-GameField::GameField(QObject *parent, const QRect& rect, qint32 side, ITileGenerator *tileGen)
+GameField::GameField(QObject *parent, qint32 side, ITileGenerator *tileGen)
     :
     QObject(parent),
     firstRun(true),
@@ -10,19 +10,22 @@ GameField::GameField(QObject *parent, const QRect& rect, qint32 side, ITileGener
     currentLevel(static_cast<qint32>(ConstantValues::START_VALUE)),
     tileGenerator(tileGen)
 {
-    installNewField(rect, side);
+    installNewField(side);
 }
 
 GameField::~GameField()
-{ }
+{
+    delete tileGenerator;
+}
 
-void GameField::installNewField(const QRect &rect, qint32 size)
+void GameField::installNewField(qint32 side)
 {
     fieldOfTiles.clear();
 
-    sideSize = size;
+    sideSize = side;
     firstRun = true;
     currentHighScore = 0;
+    lastHighScore = 0;
 
     fieldOfTiles.resize(sideSize);
     for(int x = 0; x < sideSize; x++)
@@ -35,9 +38,7 @@ void GameField::installNewField(const QRect &rect, qint32 size)
         }
     }
 
-    recalculateTilesSize(rect);
     addNewTiles();
-
     copyOfField = fieldOfTiles;
 
     emit playerScoreChanged(currentHighScore);
@@ -65,6 +66,7 @@ void GameField::recalculateTilesSize(const QRect& r)
             fieldOfTiles[i][j].setBodyRect(newTileRect);
         }
     }
+    copyOfField = fieldOfTiles;
 }
 
 void GameField::addNewTiles()
@@ -138,6 +140,7 @@ void GameField::undo()
 {
     fieldOfTiles = copyOfField;
     currentHighScore = lastHighScore;
+
 
     emit playerScoreChanged(currentHighScore);
 }
