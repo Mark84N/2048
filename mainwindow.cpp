@@ -38,7 +38,6 @@ MainWindow::MainWindow(IRecordManager * mgr, QWidget *parent)
     //  <buttons>
     QPushButton *undoBtn = new QPushButton(this);
     undoBtn->setText("undo");
-    undoBtn->setShortcut(Qt::CTRL+Qt::Key_Z);
     undoBtn->setToolTip("Undo the previous action.");
 
     QPushButton *restartBtn = new QPushButton(this);
