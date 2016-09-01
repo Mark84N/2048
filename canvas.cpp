@@ -1,7 +1,5 @@
 #include "canvas.h"
 
-#include <qdebug.h>
-
 Canvas::Canvas(QWidget *parent, qint32 side)
     : QFrame(parent),
       sideSize(side)
@@ -54,29 +52,18 @@ void Canvas::setAnotherField(qint32 size)
 
 void Canvas::keyPressEvent(QKeyEvent *keyEv)
 {
-    if ((keyEv->key() == Qt::Key_Z))
+    int keyPressed = keyEv->key();
+
+    if (keyPressed == Qt::Key_Z)
     {
-        update();
-
-        gameField->undo();
-        qDebug() << "z";
-
+        if (keyEv->modifiers() & Qt::ControlModifier)
+            undo();
+        return;
     }
-    if ((keyEv->modifiers() & Qt::ControlModifier) )
-    {
-
-        qDebug() << "ctrl";
-
-        if ((keyEv->key() == Qt::Key_Z))
-        {
-            update();
-
-            gameField->undo();
-            qDebug() << "z";
-
-        }
-    }
-    else
+    else if (keyPressed == Qt::Key_Up ||
+             keyPressed == Qt::Key_Down ||
+             keyPressed == Qt::Key_Left ||
+             keyPressed == Qt::Key_Right)
     {
         gameField->performMove(keyEv->key());
     }
