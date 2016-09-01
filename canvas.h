@@ -28,7 +28,6 @@ public:
 
     virtual void paintEvent(QPaintEvent *ev)override;
     void keyPressEvent(QKeyEvent *keyEv)override;
-    void reset();
 
 protected:
 
@@ -37,6 +36,7 @@ protected:
 public slots:
 
     void undo();
+    void reset();
     void setAnotherField(qint32 size);
 
 signals:
