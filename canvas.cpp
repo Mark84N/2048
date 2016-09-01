@@ -4,7 +4,7 @@ Canvas::Canvas(QWidget *parent, qint32 side)
     : QFrame(parent),
       sideSize(side)
 {
-    gameField = new GameField(this, this->rect(), side, new ClassicTileGenerator());
+    gameField = new GameField(this, side, new ClassicTileGenerator());
 
     setFrameStyle(QFrame::Panel | QFrame::Raised);
     setFocusPolicy(Qt::StrongFocus);
@@ -22,6 +22,7 @@ Canvas::Canvas(QWidget *parent, qint32 side)
 
 Canvas::~Canvas()
 {
+    delete gameField;
 }
 
 void Canvas::paintEvent(QPaintEvent *ev)
@@ -36,26 +37,37 @@ void Canvas::paintEvent(QPaintEvent *ev)
 
 void Canvas::reset()
 {
-    gameField->installNewField(this->rect(), sideSize);
+    gameField->installNewField(sideSize);
+    gameField->recalculateTilesSize(rect());
+    update();
 }
 
 void Canvas::setAnotherField(qint32 size)
 {
     sideSize = size;
-    gameField->installNewField(this->rect(), sideSize);
+    gameField->installNewField(sideSize);
+    gameField->recalculateTilesSize(rect());
+    update();
 }
 
 void Canvas::keyPressEvent(QKeyEvent *keyEv)
 {
-    if (keyEv->modifiers() & Qt::ControlModifier)
+    int keyPressed = keyEv->key();
+
+    if (keyPressed == Qt::Key_Z)
     {
-        if (keyEv->key() == Qt::Key_Z)
-            gameField->redo();
+        if (keyEv->modifiers() & Qt::ControlModifier)
+            undo();
+        return;
     }
-    else
+    else if (keyPressed == Qt::Key_Up ||
+             keyPressed == Qt::Key_Down ||
+             keyPressed == Qt::Key_Left ||
+             keyPressed == Qt::Key_Right)
     {
         gameField->performMove(keyEv->key());
     }
+
     update();
 }
 
@@ -64,7 +76,8 @@ void Canvas::resizeEvent(QResizeEvent *event)
     gameField->recalculateTilesSize(rect());
 }
 
-void Canvas::redo()
+void Canvas::undo()
 {
-    gameField->redo();
+    gameField->undo();
+    update();
 }

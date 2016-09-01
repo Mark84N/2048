@@ -44,17 +44,17 @@ class GameField: public QObject
 
 public:
 
-    GameField(QObject *parent, const QRect &rect, qint32 side,
+    GameField(QObject *parent, qint32 side,
               ITileGenerator* tileGen = new ClassicTileGenerator());
     ~GameField();
 
-    void installNewField(const QRect &rect, qint32 size);
+    void installNewField(qint32 side);
     void recalculateTilesSize(const QRect& r);
     void addNewTiles();
     void draw(QPainter &painter);
 
     void performMove(int keyPressed);
-    void redo();
+    void undo();
 
 signals:
 
@@ -72,7 +72,7 @@ private:
     ITileGenerator *tileGenerator;
 
     QVector<QVector<Tile>>fieldOfTiles;
-    QVector<QVector<Tile>>copyOfField;  // copy of tiles for redo feature
+    QVector<QVector<Tile>>copyOfField;  // copy of tiles for undo feature
 
     // moving logic
     bool moveUp();
