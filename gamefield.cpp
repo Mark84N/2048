@@ -66,7 +66,15 @@ void GameField::recalculateTilesSize(const QRect& r)
             fieldOfTiles[i][j].setBodyRect(newTileRect);
         }
     }
-    copyOfField = fieldOfTiles;
+
+    for (int i = 0; i < sideSize; i++)
+    {
+        for (int j = 0; j < sideSize; j++)
+        {
+            auto copyRect = fieldOfTiles[i][j].getBodyRect();
+            copyOfField[i][j].setBodyRect(copyRect);
+        }
+    }
 }
 
 void GameField::addNewTiles()
@@ -173,7 +181,9 @@ bool GameField::moveUp()
                     if (!fieldOfTiles[k-1][widthIndex].getAdditionState())
                     {
                         qint32 newTileValue = currentTileValue*2;
-                        currentLevel = newTileValue;
+
+                        if (newTileValue > currentLevel)
+                            currentLevel = newTileValue;
 
                         fieldOfTiles[k-1][widthIndex].setValue(newTileValue);
                         fieldOfTiles[k][widthIndex].setValue(0);
@@ -219,7 +229,9 @@ bool GameField::moveDown()
                     if (!fieldOfTiles[k+1][widthIndex].getAdditionState())
                     {
                         qint32 newTileValue = currentTileValue*2;
-                        currentLevel = newTileValue;
+
+                        if (newTileValue > currentLevel)
+                            currentLevel = newTileValue;
 
                         fieldOfTiles[k+1][widthIndex].setValue(newTileValue);
                         fieldOfTiles[k][widthIndex].setValue(0);
@@ -265,7 +277,9 @@ bool GameField::moveLeft()
                     if (!fieldOfTiles[heightIndex][k-1].getAdditionState())
                     {
                         qint32 newTileValue = currentTileValue*2;
-                        currentLevel = newTileValue;
+
+                        if (newTileValue > currentLevel)
+                            currentLevel = newTileValue;
 
                         fieldOfTiles[heightIndex][k-1].setValue(newTileValue);
                         fieldOfTiles[heightIndex][k].setValue(0);
@@ -311,7 +325,9 @@ bool GameField::moveRight()
                     if (!fieldOfTiles[heightIndex][k+1].getAdditionState())
                     {
                         qint32 newTileValue = currentTileValue*2;
-                        currentLevel = newTileValue;
+
+                        if (newTileValue > currentLevel)
+                            currentLevel = newTileValue;
 
                         fieldOfTiles[heightIndex][k+1].setValue(newTileValue);
                         fieldOfTiles[heightIndex][k].setValue(0);
